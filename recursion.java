@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Map;
 
 public class recursion {
@@ -32,8 +33,10 @@ public class recursion {
 
     /*
     * Divide and conquer algorithms are recursive:
+    * we divide the problem into sub problems and combine the results of sub problems
     * 1. binary search
     * 2. fibonacci
+    * 3. merge sort
     * */
 
     public static int binarySearch (int[] nums,int left,int right, int target){
@@ -56,6 +59,73 @@ public class recursion {
         else if (cache.containsKey(num)) return cache.get(num);
         cache.put(num, fibonacciOptimized(num-1,cache) +fibonacciOptimized(num-2,cache));
         return cache.get(num);
+    }
+
+    //Time : O(nlog(n)) Space :O(1)
+    public static void mergeSort(int[] nums,int start,int end){
+          if(start<end) {
+              int mid = (start + end) / 2;
+
+              mergeSort(nums, start, mid);
+              mergeSort(nums, mid + 1, end);
+              merge(nums, start, mid, end);
+          }
+    }
+    public static void merge(int[] nums,int start,int mid,int end){
+        int[] temp=new int[end-start+1];
+        int i=start,j=mid+1,k=0;
+
+        //linear time comparison  between left and right and arrange accordingly
+        while (i<=mid  && j<=end){
+            if(nums[i] <=nums[j]) temp[k++]=nums[i++];
+            else temp[k++]=nums[j++];
+        }
+        //if the nums are remaining then add to temp
+        while (i<=mid)  temp[k++]=nums[i++];
+        while ( j<=end) temp[k++]=nums[j++];
+
+        for(i=start;i<=end;i++) nums[i]=temp[i-start];
+    }
+
+    /*
+    * Linked list also employ the recursion in its properties
+    * 1. reverse the linked list
+    * */
+    public static class ListNode {
+        int val;
+        ListNode next;
+        ListNode(int val){
+            this.val=val;
+        }
+        public int getVal(){
+            return val;
+        }
+        public ListNode getNext() {
+            return next;
+        }
+        public void setNext(ListNode node){
+            this.next=node;
+        }
+    }
+
+    public static ListNode reverseLinkedList(ListNode head){
+        if(head==null || head.next==null) return head;  //base case
+        ListNode p=reverseLinkedList(head.next);
+        head.next.next=head;   //least amt. of work
+        head.next=null;
+        return p;
+    }
+    public static ListNode MergeSortedLinkedList(ListNode a, ListNode b ){
+        if(a==null) return b;
+        else if ( b==null) return  a;
+
+        if(a.val<b.val) {
+            a.next=MergeSortedLinkedList(a.getNext(),b);
+            return a;
+        }else {
+            b.next=MergeSortedLinkedList(a,b.getNext());
+            return b;
+        }
     }
 
 }
