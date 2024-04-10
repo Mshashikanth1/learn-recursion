@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.Map;
 
 public class recursion {
@@ -127,5 +126,29 @@ public class recursion {
             return b;
         }
     }
-
+    /* divide and conquer algorithms & recursive in nature
+     * quick sort includes the following steps
+     * finding the pivot index , and make all the elements less than that
+     * indexed element left of it and elements greater than that right of it
+     * do this for all the elements in the array
+     * */
+    public static void quickSort(int[] nums,int start,int end){
+        if(start<end) {
+            int pi = partition(nums, start, end);
+            quickSort(nums, start, pi - 1);
+            quickSort(nums, pi + 1, end);
+        }
+    }
+    public static int partition(int[] nums, int start, int end){
+        int i=start-1,j=start;
+        while(j<end){
+            if(nums[j] <= nums[end]) {
+                 i++;
+                 sorting.performSwap(nums,i,j);
+            }
+            j++;
+        }
+        sorting.performSwap(nums,i+1,end);
+        return i+1;
+    }
 }
