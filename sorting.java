@@ -62,7 +62,7 @@ public class sorting {
   */
     public static void mergeSort(int[] nums, int left, int right){
            if(left<right){
-               int mid=left + ((right - left)>>2);
+               int mid=left + ((right - left)/2);
                mergeSort(nums,left, mid);
                mergeSort(nums,mid+1,right);
                merge(nums,left,mid,right);
@@ -86,8 +86,6 @@ public class sorting {
            /*put the remaining elements in og arr*/
            while(i<n) nums[k++]=nArr[i++];
            while(j<m) nums[k++]=mArr[j++];
-
-          
     }
 
     public  static  int gcd(int a, int b){

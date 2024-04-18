@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class gfg {
 
@@ -181,17 +180,275 @@ Once both x and y are found in the tree, return the kth common ancestor from the
         }
     }
 
+    /*
+    * Sum of Products
+MediumAccuracy: 50.93%Submissions: 11K+Points: 4
+Given an array arr[] of size n.
+Calculate the sum of Bitwise ANDs ie:
+calculate sum of arr[i] & arr[j]
+for all the pairs in the given array arr[] where i < j.
+
+Example 1:
+
+Input:
+n = 3
+arr = {5, 10, 15}
+Output:
+15
+Explanation:
+The bitwise Ands of all pairs where i<j are (5&10) = 0, (5&15) = 5 and (10&15) = 10.
+Therefore, the total sum = (0+5+10) = 15.
+Example 2:
+
+Input:
+n = 4
+arr = {10, 20, 30, 40}
+Output:
+46
+Explanation:
+The sum of bitwise Ands
+of all pairs = (0+10+8+20+0+8) = 46.
+Your Task:
+You don't need to read input or print anything.
+Your Task is to complete the function pairAndSum() which takes an Integer n and an array arr[]
+of size n as input parameters and returns the sum of bitwise Ands of all pairs.
+
+Expected Time Complexity:O(n)
+Expected Auxillary Space:O(1)
+
+Constraints:
+1 <= n <= 105
+1 <= arr[i] <= 108
+
+    *
+    * */
+
+    static long pairAndSum1(int n, long arr[]) {
+        // code here
+        long ans=0;
+        for(int i=0; i<n-1; i++) {
+            for(int j=i+1; j<n; j++){
+                ans+=(arr[j] & arr[i]);
+            }
+        }
+        return ans;
+    }
+
+    static long pairAndSum(int n, long arr[]) {
+        // code here
+        long ans=0;
+        for(int i=0;i<32;i++){
+
+            int bitMask =(1 << i);
+            int setBits =0;
+            for(long j: arr){
+                if(((int)j & bitMask )!=0) setBits++;
+            }
+            ans+= (long) setBits *(setBits-1)/2 * bitMask;
+        }
+        return ans;
+    }
 
 
+    public static int minimizeDifference2(int n, int k, int[] arr) {
+
+
+        //find the max, min element in original array
+        int max=Integer.MIN_VALUE, min=Integer.MAX_VALUE;
+        for(int i:arr) {
+            max=Math.max(max,i);
+            min=Math.min(min,i);
+        }
+        int minDiff=max-min;
+
+        int i=0,j=k-1;
+
+        while(j<n){
+
+            //remove one sub array & find max, min elements in remaining array
+            max=Integer.MIN_VALUE; min=Integer.MAX_VALUE;
+            for( k=0;k<n;k++){
+                if( k < i || k > j){
+                    max=Math.max(max,arr[k]);
+                    min=Math.min(min,arr[k]);
+                }
+            }
+            System.out.println(min +","+max );
+            minDiff=Math.min(max-min, minDiff);
+
+            i++;
+            j++;
+        }
+
+        return minDiff;
+    }
+    public static int minimizeDifference(int n, int k, int[] arr) {
+
+        String dlm=",";
+        Queue<String> minHeap=new PriorityQueue<>( (String a,String b)->  Integer.valueOf(a.split(",")[0]) -  Integer.valueOf(b.split(",")[0]));
+        Queue<String> maxHeap=new PriorityQueue<>( (String a,String b)->  Integer.valueOf(b.split(",")[0]) -  Integer.valueOf(a.split(",")[0]));
+
+        for(int i=0;i<n;i++){
+            minHeap.add(arr[i]+dlm+i);
+            maxHeap.add(arr[i]+dlm+i);
+        }
+
+        int minDiff= Integer.valueOf(maxHeap.peek().split(dlm)[0])-Integer.valueOf(minHeap.peek().split(dlm)[0]);
+        for(int i=0;i<k;i++){
+            minHeap.remove(arr[i]+dlm+i);
+            maxHeap.remove(arr[i]+dlm+i);
+        }
+
+        System.out.println(minHeap.peek().split(dlm)[0]+","+maxHeap.peek().split(dlm)[0]);
+
+        int i=0,j=k;
+
+        while(j<n){
+            maxHeap.remove(arr[j]+dlm+j);
+            maxHeap.add(arr[i]+dlm+i);
+
+            minHeap.remove(arr[j]+dlm+j);
+            minHeap.add(arr[i]+dlm+i);
+
+            minDiff= Math.min(Integer.valueOf(maxHeap.peek().split(dlm)[0])-Integer.valueOf(minHeap.peek().split(dlm)[0]), minDiff);
+            System.out.println(minHeap.peek().split(dlm)[0]+","+maxHeap.peek().split(dlm)[0]);
+
+            i++;
+            j++;
+        }
+        return minDiff;
+    }
+
+
+    public static int minimizeDifference3(int n, int k, int[] arr) {
+        TreeSet<Integer> minSet = new TreeSet<>(); // Min-heap (sorted in ascending order)
+        TreeSet<Integer> maxSet = new TreeSet<>((a, b) -> Integer.compare(b, a)); // Max-heap (sorted in descending order)
+
+        // Initialize the first window of size k
+        for (int i = 0; i < k; i++) {
+            minSet.add(arr[i]);
+            maxSet.add(arr[i]);
+        }
+
+        int minDiff = maxSet.first() - minSet.first();
+
+        // Slide the window across the array
+        for (int i = 1; i <= n - k; i++) {
+            // Add the new element to the window
+            minSet.add(arr[i + k - 1]);
+            maxSet.add(arr[i + k - 1]);
+
+            // Remove the outgoing element from the window
+            minSet.remove(arr[i - 1]);
+            maxSet.remove(arr[i - 1]);
+
+            // Update the minimum difference
+            minDiff = Math.min(minDiff, maxSet.first() - minSet.first());
+        }
+
+        return minDiff;
+    }
+
+
+    public static int minimizeDifference4(int n, int k, int[] arr) {
+
+        Queue<Integer> minHeap=new PriorityQueue<>( (a,b)-> a-b);
+        Queue<Integer> maxHeap=new PriorityQueue<>( (a,b)-> b-a);
+
+        for(int i=0;i<n;i++){
+            minHeap.add(arr[i]);
+            maxHeap.add(arr[i]);
+        }
+
+        int minDiff= maxHeap.peek()-minHeap.peek();
+        for(int i=0;i<k;i++){
+            minHeap.remove(arr[i]);
+            maxHeap.remove(arr[i]);
+        }
+
+
+        int i=0,j=k;
+        while(j<n){
+            maxHeap.remove(arr[j]);
+            maxHeap.add(arr[i]);
+
+            minHeap.remove(arr[j]);
+            minHeap.add(arr[i]);
+
+            minDiff= Math.min(maxHeap.peek()-minHeap.peek(),minDiff);
+
+            i++;
+            j++;
+        }
+        return minDiff;
+    }
+
+
+    public static int minimizeDifference5(int n, int k, int[] arr) {
+        int post_max[] = new int[n];
+        int post_min[] = new int[n];
+
+        post_max[n - 1] = post_min[n - 1] = arr[n - 1];
+
+        for(int i = n - 2; i >= 0; i--) {
+            post_max[i] = Math.max(arr[i], post_max[i + 1]);
+            post_min[i] = Math.min(arr[i], post_min[i + 1]);
+        }
+
+        int mini = arr[0], maxi = arr[0], res = post_max[k] - post_min[k];
+
+        for(int i = 1; i < n - k; i++) {
+            res = Math.min(res, Math.max(maxi, post_max[i + k]) - Math.min(mini, post_min[i + k]));
+            mini = Math.min(mini, arr[i]);
+            maxi = Math.max(maxi, arr[i]);
+        }
+
+        res = Math.min(res, maxi - mini);
+
+        return res;
+    }
+
+
+    public static int[] twoRepeated1(int arr[], int n)
+    {
+        // Your code here
+        int[] ans=new int[2], frq=new int[n];
+        int j=0;
+
+        for(int i=0; i<n+2; i++){
+            frq[arr[i]-1]++;
+            if (frq[arr[i]-1]==2) ans[j++]=arr[i];
+        }
+        return ans;
+    }
+
+    public static int[] twoRepeated(int arr[], int n){
+        int y=0;
+        int[] nums= new int[3];
+
+        for(int i=0; i<arr.length; i++){
+            int k=Math.abs(arr[i]);
+
+            if (arr[k] < 0) nums[y++]=k;
+            else arr[k]*=-1;
+        }
+        return nums;
+    }
+
+
+    /*
+    * 6
+3
+            2  3 1  7 6 4
+               i    j
+    min = 6,   min=min(i-1,j+1) = 2
+    max = 7,   max=max(i-1, j+1)= 6
+    * */
 }
 
 class Node{
-    int data;
-    Node left, right;
-
+    int data;  Node left, right;
     public Node(int d){
-        data=d;
-        left=null;
-        right=null;
+        data=d; left=null; right=null;
     }
 }
