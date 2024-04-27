@@ -5,6 +5,8 @@ import java.io.*;
 
 public class zenotiHackerEartchTest {
 
+    /*Online test : Status pass*/
+
         public static void main1(String args[] ) throws Exception {
             Scanner sc=new Scanner(System.in);
             int n=sc.nextInt();
@@ -97,4 +99,62 @@ public class zenotiHackerEartchTest {
             n--;
         }
     }
+
+
+    /*[19/04/2024] Interview questions on hacker earth : status pass*/
+
+    /**
+     *       1
+     *     1 2 1
+     *   1 2 3 2 1
+     * 1 2 3 4 2 3 1
+     */
+
+    /*Time : O(N^2) Space :O(1)*/
+    public  static  void printPattern(int n) {
+        for(int i=0;i<=n;i++) {
+            int k=n-i;
+            while(k-->0) System.out.print(" ");
+            for (int j = 1; j <= i; j++) System.out.print(j +" ");
+            for (int j = i-1; j >0; j--) System.out.print(j +" ");
+            System.out.println();
+        }
+    }
+
+
+
+    /*Time :O(2^n) Space :O(1) + (call stack space)*/
+    public int fib(int n ){
+        if(n<2) return  1;
+        return fib(n-1)+fib(n-2);
+    }
+
+    /*Time :O(n) Space :O(1) + (call stack space)*/
+    public int fibMemo(int n,     Map<Integer,Integer> memo){
+        if(n<2) return  1;
+        if(memo.containsKey(n)) return memo.get(n);
+        memo.put(n, fib(n-1)+fib(n-2));
+        return memo.get(n);
+    }
+
+    /*Time : O(n) Space :O(n)*/
+    public int fibTab(int n){
+        if(n<2) return 1;
+        int[] dp =new int[n+1];
+        for(int i=2;i<n;i++)  dp[i]=dp[i-1]+dp[i-2];
+        return dp[n];
+    }
+
+    /*
+    * given three tables, we need to query certain data on the tables;
+    *
+    * Select students.name from students_table  where id in (
+    * select students_id in attendance_table left join
+    * lecture_table on attendance_table.lecture_id =lecture_table
+    * )
+    * order by studets.name
+    * */
+
+
+    /* [22/04/2024] :Interview on hacer earth*/
 }

@@ -444,11 +444,142 @@ Constraints:
     min = 6,   min=min(i-1,j+1) = 2
     max = 7,   max=max(i-1, j+1)= 6
     * */
+
+
+    public static ArrayList<Integer> findUnion(int arr1[], int arr2[], int n, int m){
+        int i=0,j=0;
+
+        ArrayList<Integer> ans=new ArrayList<>();
+
+
+            while(i<n && j<m){
+                if(arr1[i]==arr2[j])  {ans.add(arr1[i++]); j++; }
+                else if (arr1[i]<arr2[j]) ans.add(arr1[i++]);
+                else ans.add(arr2[j++]);
+            }
+
+            while(i<n) ans.add(arr1[i++]);
+            while(j<m) ans.add(arr2[j++]);
+
+        return ans;
+
+    }
+
+    /*
+    * Rohan has a special love for the matrices especially for the first element of the matrix.
+    *  Being good at Mathematics, he also loves to solve the different problem on the matrices.
+    *  So one day he started to multiply the matrix with the original matrix.
+    * The elements of the original matrix a are given by [a00=1 , a01=1, a10=1, a11=0].
+Given the power of the matrix, n calculate  and return the a10 element mod 1000000007.
+*
+* a(2x2)= [1,1] * [1,1]  ==> [2,--] * [1,1]  ==> [3]
+*         [1,0]   [1,0]      [1, --]  [1,0]            [1,0]
+
+Example 1:
+
+Input:
+n = 3
+Output:
+2
+Explanation: Take the cube of the original matrix
+i.e a3 and the (a10)th element is 2.
+Example 2:
+
+Input:
+n = 4
+Output:
+3
+Explanation: Take the cube of the original matrix
+i.e a4 and the (a10)th element is 3.
+Your Task:
+You dont need to read input or print anything.
+Complete the function firstElement() which takes n as input parameter and returns the a10 element mod 1000000007 of an.
+
+Expected Time Complexity: O(n)
+Expected Auxiliary Space: O(1)
+
+Constraints:
+1<= n <=106
+
+Topic Tags
+ */
+
+    static int firstElementFib(int n) {
+        // code here
+       if(n==1) return 1;
+       if(n==2) return 2;
+
+       return firstElementFib(n-1)+firstElementFib(n-2);
+    }
+
+    static Node sortDoubly(Node head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        // Find the middle of the list
+        Node middle = getMiddle(head);
+        Node nextOfMiddle = middle.next;
+        middle.next = null;
+        nextOfMiddle.prev = null;
+
+        // Recursively sort both halves
+        Node left = sortDoubly(head);
+        Node right = sortDoubly(nextOfMiddle);
+
+        // Merge the sorted halves
+        return merge(left, right);
+    }
+
+    // Function to find the middle node of the doubly linked list
+    static Node getMiddle(Node head) {
+        if (head == null) {
+            return head;
+        }
+
+        Node slow = head;
+        Node fast = head.next;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+    }
+
+    // Function to merge two sorted doubly linked lists
+    static Node merge(Node left, Node right) {
+        if (left == null) {
+            return right;
+        }
+
+        if (right == null) {
+            return left;
+        }
+
+        if (left.data <= right.data) {
+            left.next = merge(left.next, right);
+            left.next.prev = left;
+            left.prev = null;
+            return left;
+        } else {
+            right.next = merge(left, right.next);
+            right.next.prev = right;
+            right.prev = null;
+            return right;
+        }
+    }
+
+
+    class Node{
+        int data;  Node left, right ,next,prev;
+        public Node(int d){
+            data=d; left=null; right=null;
+        }
+    }
+
+
 }
 
-class Node{
-    int data;  Node left, right;
-    public Node(int d){
-        data=d; left=null; right=null;
-    }
-}
+

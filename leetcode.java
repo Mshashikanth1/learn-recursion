@@ -1,3 +1,7 @@
+
+
+import org.graalvm.collections.Pair;
+
 import java.lang.reflect.Array;
 import java.util.*;
 
@@ -571,7 +575,6 @@ n == height.length
     }
 
 
-    static int[] dx=new int[]{0,1,0,-1},dy=new int[]{1,0,-1,0};
     public static int islandPerimeter(int[][] grid) {
         Set<String> visited =new HashSet<>();
         int islands=0,maxPeri=0;
@@ -624,8 +627,388 @@ n == height.length
         }
      return cc;
     }
+    public static int numIslands(char[][] grid) {
+        int islands=0;
+        Set<String> visited=new HashSet<>();
+
+        int r=grid.length, c=grid[0].length;
+        for(int i=0; i<r; i++){
+            for(int j=0; j<c; j++){
+                String ij=i+","+j;
+                if(!visited.contains(ij) && grid[i][j]=='1') {
+                  islands+=dfsRec2(grid, i,  j,  r,  c, visited);
+                }
+            }
+        }
+        return islands;
+    }
+    static int[] dx=new int[]{0,1,0,-1},dy=new int[]{1,0,-1,0};
+    public static int dfs2(char[][] grid ,int i, int j, int r, int c,Set<String> visited ){
+        String ij= i+","+j;
+        if(visited.contains(ij) || grid[i][j]=='0') return 0;
+
+        Stack<int[]> stack =new Stack<>();
+        visited.add(ij);
+        stack.push(new int[]{i,j});
+
+        while(!stack.isEmpty()){
+            int[] poped= stack.pop();
+
+            for(int k=0; k<4; k++){
+                int dxi=poped[0] + dx[k] ,dyj=poped[1]+dy[k];
+
+                String dxyij= dxi+","+dyj;
+                if(!visited.contains(dxyij) && (dxi >=0 && dxi<r) && (dyj>=0 && dyj<c) && grid[dxi][dyj]=='1'){
+                    stack.push(new int[]{dxi,dyj});
+                    visited.add(dxyij);
+                }
+            }
+        }
+        return 1;
+    }
+    public static int dfsRec2(char[][] grid ,int i, int j, int r, int c,Set<String> visited ){
+        String ij= i+","+j;
+        if(visited.contains(ij) || grid[i][j]=='0') return 0;
+
+        for(int k=0; k<4; k++) {
+            int dxi=i + dx[k] ,dyj=j+dy[k];
+
+            String dxyij= dxi+","+dyj;
+            if(!visited.contains(dxyij) && (dxi >=0 && dxi<r) && (dyj>=0 && dyj<c) && grid[dxi][dyj]=='1'){
+                visited.add(dxyij);
+                dfsRec2(grid,dxi,dyj,r,c,visited);
+            }
+        }
+        return 1;
+    }
 
 
+    public static boolean validPath(int n, int[][] edges, int source, int destination) {
+
+        //modify the edges graph to adj. list
+        Map<Integer,List<Integer>> adjList=new HashMap<>();
+        for(int[] edge:edges){
+            List<Integer> lis1=adjList.getOrDefault(edge[1],new ArrayList<>());
+            List<Integer> lis0=adjList.getOrDefault(edge[0],new ArrayList<>());
+
+            lis1.add(edge[0]);
+            lis0.add(edge[1]);
+
+            adjList.put(edge[1],lis1);
+            adjList.put(edge[0],lis0);
+        }
+
+        Set<Integer> visited=new HashSet<>();
+
+        //perform dfs
+        boolean ans= bfs( visited, adjList, source,destination);
+
+        System.out.println(visited);
+
+        return  ans;
+
+
+    }
+
+    public  static boolean recDfs(Set<Integer> visited, Map<Integer,List<Integer>> adjList, int source, int destination){
+        if(source==destination) return true;
+        visited.add(source);
+        boolean ans=false;
+        for(int neighbour : adjList.get(source)) {
+            if (!visited.contains(neighbour))
+                ans |= recDfs(visited, adjList, neighbour, destination);
+        }
+
+        return ans;
+    }
+    public static boolean dfs(Set<Integer> visited, Map<Integer,List<Integer>> adjList, int source, int destination){
+
+        if(source==destination) return true;
+        //create a stack add source it and visited
+        Stack<Integer> stack=new Stack<>();
+        stack.add(source);
+        visited.add(source);
+
+        while(!stack.isEmpty()){
+
+            int pop= stack.pop();
+
+            //push all the neighbours to the stack & mark visited
+            for(int neighbour: adjList.get(pop)){
+                if(!visited.contains(neighbour)){
+                    stack.add(neighbour);
+                    visited.add(neighbour);
+                }
+                //if you encounter destination then imediately return true
+                if(neighbour==destination ) {
+                    System.out.println(visited);
+                    return true;}
+            }
+        }
+
+        System.out.println(visited);
+
+        // if the dfs is cmpleted the function is still not exited then we don't find the path'
+        return false;
+    }
+    public static boolean bfs(Set<Integer> visited, Map<Integer,List<Integer>> adjList, int source, int destination){
+
+        //create a queue for bfs & start form visiting source node first
+        Queue<Integer> queue=new LinkedList<>();
+        queue.offer(source);
+        visited.add(source);
+
+        while (!queue.isEmpty()){
+            int poll=queue.poll();
+            for(int neighbour: adjList.get(poll)){
+                if(!visited.contains(neighbour)) {
+                    queue.offer(neighbour);
+                    visited.add(neighbour);
+                }
+                if(destination==neighbour || poll==destination) return true;
+            }
+        }
+        return false;
+    }
+
+
+    public static void mergeSort(int[] arr, int l, int r){
+        if(l<r) {
+            //calculate the mid
+            int mid = l + (r - l) / 2;
+
+            //divide the array in to smallest half's continuously
+            mergeSort(arr, l, mid);
+            mergeSort(arr, mid + 1, r);
+
+            //merge the array
+            merge(arr, l, mid, r);
+        }
+    }
+
+    public static void merge(int[] arr, int l, int mid, int r){
+        //calulcate the size of new subarrays
+        int n= mid-l+1 , m=r-mid;
+
+        //declare the left ,rightsub array
+        int[] nArr=new int[n], mArr=new int[m];
+
+        //copy the data from the array to respective sub arrays
+        for(int i=0;i<n;i++) nArr[i]=arr[l+i];
+        for(int j=0;j<m;j++) mArr[j]=arr[mid+j+1];
+
+        //compare the left sub array and right sub array and put back the data in input array in sorted fasion
+        int i=0,j=0,k=l;
+        while(i<n && j<m){
+            if(nArr[i]<=mArr[j]) arr[k++]=nArr[i++];
+            else arr[k++]=mArr[j++];
+        }
+
+        //copy the remaining elements
+        while(i<n) arr[k++]=nArr[i++];
+        while(j<m) arr[k++]=mArr[j++];
+    }
+
+
+    public static  void quickSort(int[] arr, int l, int r){
+        if(l<r){
+            int pivotInx=partition(arr,l,r);
+            quickSort(arr, l,pivotInx-1);
+            quickSort(arr,pivotInx+1,r);
+        }
+
+    }
+
+    public static int partition(int[] arr, int l, int r){
+        int i=l-1,j=l;
+
+        while(j<r){
+            if(arr[j]<arr[r]) swap(arr, ++i,j);
+            j++;
+        }
+        swap(arr, ++i, r);
+        return i;
+    }
+
+    public static void swap(int[] arr, int i, int j){
+        int t=arr[i];
+        arr[i]=arr[j];
+        arr[j]=t;
+    }
+
+    public static int longestIdealString(String s, int k) {
+        Map<String, Integer> cache = new HashMap<>();
+        return dfs(s.toCharArray(), k, 0, ' ', cache);
+    }
+
+    public static int dfs(char[] s, int k, int index, char prevChar, Map<String, Integer> cache) {
+        // Base case: if we reach the end of the string
+        if (index == s.length) {
+            return 0;
+        }
+
+        // Memoization key based on current index and previous character
+        String key = index + "," + prevChar;
+        if (cache.containsKey(key)) {
+            return cache.get(key);
+        }
+
+        // Calculate the length if we exclude the current character
+        int lenExcluded = dfs(s, k, index + 1, prevChar, cache);
+
+        // Calculate the length if we include the current character
+        int lenIncluded = 0;
+        if (index == 0 || Math.abs(s[index] - prevChar) <= k) {
+            lenIncluded = 1 + dfs(s, k, index + 1, s[index], cache);
+        }
+
+        // Take the maximum length between including and excluding the current character
+        int maxLength = Math.max(lenExcluded, lenIncluded);
+
+        // Memoize the result for current index and previous character
+        cache.put(key, maxLength);
+
+        return maxLength;
+    }
+
+    public static int dp(char[] s, int k){
+
+        int[] dp=new int[s.length];
+        dp[0]=1;
+
+        int maxIdealString=0;
+        for (int i = 1; i < s.length; i++) {
+            dp[i] = 1;
+            for (int j = i - 1; j >= 0; j--) {
+                if (Math.abs(s[i] - s[j]) <= k) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+
+            maxIdealString=Math.max(maxIdealString,dp[i]);
+        }
+        System.out.println(Arrays.toString(dp));
+        return maxIdealString;
+    }
+
+/*
+    m*n  m=row, n=col
+    n%2==1 ,hour glass possible
+
+    for(int i=0;i<m;i+=2)
+      arr[i+1]
+
+      j x hwaysa
+ */
+
+
+
+        // Initialize a hash map to cache the result of each sub-problem
+        Map<Pair<Integer, Integer>, Integer> memo = new HashMap<>();
+
+        public int minFallingPathSum1(int[][] grid) {
+            // We can select any element from the first row. We will select
+            // the element which leads to minimum sum.
+            int answer = Integer.MAX_VALUE;
+            for (int col = 0; col < grid.length; col++) {
+                answer = Math.min(answer, optimal(0, col, grid));
+            }
+
+            // Return the minimum sum
+            return answer;
+        }
+
+        // The optimal(row, col) function returns the minimum sum of a
+        // falling path with non-zero shifts, starting from grid[row][col]
+        int optimal(int row, int col, int[][] grid) {
+            // If the last row, then return the value of the cell itself
+            if (row == grid.length - 1) {
+                return grid[row][col];
+            }
+
+            // If the result of this sub-problem is already cached
+            if (memo.containsKey(new Pair<>(row, col))) {
+                return memo.get(new Pair<>(row, col));
+            }
+
+            // Select grid[row][col], and move on to next row. For next
+            // row, choose the cell that leads to the minimum sum
+            int nextMinimum = Integer.MAX_VALUE;
+            for (int nextRowCol = 0; nextRowCol < grid.length; nextRowCol++) {
+                if (nextRowCol != col) {
+                    nextMinimum = Math.min(nextMinimum, optimal(row + 1, nextRowCol, grid));
+                }
+            }
+
+            // Minimum cost from this cell
+            memo.put(new Pair<>(row, col), grid[row][col] + nextMinimum);
+            return memo.get(new Pair<>(row, col));
+        }
+
+
+        public int minFallingPathSum(int[][] grid) {
+            // Minimum and Second Minimum Column Index
+            int nextMin1C = -1;
+            int nextMin2C = -1;
+
+            // Minimum and Second Minimum Value
+            int nextMin1 = -1;
+            int nextMin2 = -1;
+
+            // Find the minimum and second minimum from the last row
+            for (int col = 0; col < grid.length; col++) {
+                if (nextMin1 == -1 || grid[grid.length - 1][col] <= nextMin1) {
+                    nextMin2 = nextMin1;
+                    nextMin2C = nextMin1C;
+                    nextMin1 = grid[grid.length - 1][col];
+                    nextMin1C = col;
+                } else if (nextMin2 == -1 || grid[grid.length - 1][col] <= nextMin2) {
+                    nextMin2 = grid[grid.length - 1][col];
+                    nextMin2C = col;
+                }
+            }
+
+            // Fill the recursive cases
+            for (int row = grid.length - 2; row >= 0; row--) {
+                // Minimum and Second Minimum Column Index of the current row
+                int min1C = -1;
+                int min2C = -1;
+
+                // Minimum and Second Minimum Value of current row
+                int min1 = -1;
+                int min2 = -1;
+
+                for (int col = 0; col < grid.length; col++) {
+                    // Select minimum from valid cells of the next row
+                    int value;
+                    if (col != nextMin1C) {
+                        value = grid[row][col] + nextMin1;
+                    } else {
+                        value = grid[row][col] + nextMin2;
+                    }
+
+                    // Save minimum and second minimum
+                    if (min1 == -1 || value <= min1) {
+                        min2 = min1;
+                        min2C = min1C;
+                        min1 = value;
+                        min1C = col;
+                    } else if (min2 == -1 || value <= min2) {
+                        min2 = value;
+                        min2C = col;
+                    }
+                }
+
+                // Change of row. Update nextMin1C, nextMin2C, nextMin1, nextMin2
+                nextMin1C = min1C;
+                nextMin2C = min2C;
+                nextMin1 = min1;
+                nextMin2 = min2;
+            }
+
+            // Return the minimum from the first row
+            return nextMin1;
+        }
 
 }
 /*
@@ -649,7 +1032,16 @@ n == height.length
  0,1,2,3,4
 
 minVal !=1 then answer =1
-maxVal*(maxVal+1)>>1 == sum(nums) then return maxVal+1;
+
+
+
+4 4
+6 2 1 3
+4 2 1 5
+9 2 8 7
+4 1 2 9
  */
+
+
 
 

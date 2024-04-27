@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class app {
@@ -132,10 +133,117 @@ int[] in=new int[] {683331,84116,494133,995214,501258,680561,448417,78085,78085,
                                                                     {0,1,0,0},
                                                                     {1,1,0,1}} )
                             );
+
+         System.out.println(Arrays.toString(gfg.twoRepeated(new int[]{1, 2, 1, 3, 4, 3,2,5}, 4)));
+
+
+        System.out.println(leetcode.numIslands(new char[][] {
+                {'1','1','1','1','0'},
+                {'1','1','0','1','0'},
+                {'1','1','0','0','0'},
+                {'0','0','0','0','1'}
+        }));
+
+                zenotiHackerEartchTest.printPattern(4);
+        System.out.println(gfg.findUnion( new int[]{-7 , 8} , new int[]{-8,-3,8} ,2 ,3));
+                System.out.println(HackerEarth.solve(4,2));
+
+
+        System.out.println(leetcode.validPath(3, new int[][]{{0,1},{1,2},{2,0}}, 0, 2));
+        System.out.println(leetcode.validPath( 6, new int[2][2], 0, 0));
+        System.out.println(leetcode.validPath( 6, , 0, 5));
+        System.out.println(leetcode.validPath( 6, new int[][]{{0,1},{0,2},{3,5},{5,4},{4,3}}, 0, 0));
+
+
+        int[] arr=new int[]{1, 4, 3, 6, 2, 1};
+        leetcode.quickSort(arr, 0, arr.length-1);
+        System.out.println(Arrays.toString(arr));
+
+
+        int[][] graph=new int[][]{{0,1},{0,2},{3,5},{5,4},{4,3}};
+        DisJointSetsOrUnionFind disJointSetsOrUnionFind=new DisJointSetsOrUnionFind(6);
+        for(int[] edge:graph) disJointSetsOrUnionFind.union(edge[0],edge[1]);
+        System.out.println(DisJointSetsOrUnionFind.bothAreInSameSet(0,5));
+        System.out.println(Arrays.toString(DisJointSetsOrUnionFind.parent));
+
+
+a cou=1
+a-b =1 < 3 cou=2
+ab-> b-c =1<3 cou=3
+abc-> c-d = 1<3 cou=4
+
+        System.out.println(leetcode.longestIdealString("acfgbd",2));
+        System.out.println(leetcode.longestIdealString( "abcd",3));
+        System.out.println(leetcode.longestIdealString("jxhwaysa",14));
+
+       [
+         [ |-37|, 51, -36, 34,-22 ],
+         [  82,  |4|, 30,  14, 38 ],
+         [ -68, -52, |-92|, 65,-85 ],
+         [ |-49|, -3, -77, 8, -19 ],
+         [ -60, -71,-21, -62, |-73| ]
+       ]
+
+       -37+4-92-49-73
+
+        System.out.println(fun(4,8));
+
  */
+        int[][] grid=new int[][]  {
+                { -37, 51, -36, 34,-22 },
+                {  82,  4, 30,  14, 38 },
+                { -68, -52, -92, 65,-85 },
+                { -49, -3, -77, 8, -19 },
+                { -60, -71,-21, -62, -73 }
+             };
+        System.out.println(minFallingPathSum(grid)); //-247
+    }
 
 
-        System.out.println(Arrays.toString(gfg.twoRepeated(new int[]{1, 2, 1, 3, 4, 3,2,5}, 4)));
+        public static int minFallingPathSum(int[][] grid) {
+//            return greedy(grid);
+            return  dfs(grid, 0, 0);
+        }
+
+        public static int dfs(int[][] grid, int rowIndx, int min){
+                if(rowIndx>=grid[0].length) return 0;
+
+                int[] row=grid[rowIndx];
+
+               PriorityQueue<Integer> minHeap=new PriorityQueue<>();
+               for(int i : row)  if(i+min < min) minHeap.offer(dfs(grid,rowIndx,i+min));
+
+               min=Math.min(min,minHeap.isEmpty() ? min: minHeap.poll());
+               return Math.min(dfs(grid,rowIndx+1,min), min);
+
+
+        }
+
+
+    private static int greedy(int[][] grid) {
+
+        // will not work
+        int min=0 , prevIndx=-1, currMin, currIndx;
+
+        for(int[] row : grid){
+            currMin=Integer.MAX_VALUE;
+            currIndx=-1;
+            for(int i = 0; i< grid[0].length; i++){
+                if(prevIndx!=i && currMin>row[i]) {
+                    currMin = row[i];
+                    currIndx = i;
+                    System.out.print(currMin +" + ");
+                }
+            }
+            min+=currMin;
+            prevIndx=currIndx;
+        }
+        return min;
+    }
+
+    static int fun(int a, int b){
+        if(a==1)return b;
+         return fun(a-1, b+a);
     }
 }
 
