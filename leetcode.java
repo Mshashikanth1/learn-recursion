@@ -927,9 +927,9 @@ n == height.length
             }
 
             // If the result of this sub-problem is already cached
-            if (memo.containsKey(new Pair<>(row, col))) {
-                return memo.get(new Pair<>(row, col));
-            }
+//            if (memo.containsKey(new Pair<>(row, col))) {
+//                return memo.get(new Pair<>(row, col));
+//            }
 
             // Select grid[row][col], and move on to next row. For next
             // row, choose the cell that leads to the minimum sum
@@ -940,9 +940,10 @@ n == height.length
                 }
             }
 
-            // Minimum cost from this cell
-            memo.put(new Pair<>(row, col), grid[row][col] + nextMinimum);
-            return memo.get(new Pair<>(row, col));
+//            // Minimum cost from this cell
+//            memo.put(new Pair<>(row, col), grid[row][col] + nextMinimum);
+//            return memo.get(new Pair<>(row, col));
+            return -1;
         }
 
 

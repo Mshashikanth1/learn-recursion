@@ -548,6 +548,50 @@ Topic Tags
         return slow;
     }
 
+
+    public static int minFallingPathSum(int[][] grid) {
+//            return greedy(grid);
+        return  dfs(grid, 0, 0);
+    }
+
+    public static int dfs(int[][] grid, int rowIndx, int min){
+        if(rowIndx>=grid[0].length) return 0;
+
+        int[] row=grid[rowIndx];
+
+        PriorityQueue<Integer> minHeap=new PriorityQueue<>();
+        for(int i : row)  if(i+min < min) minHeap.offer(dfs(grid,rowIndx,i+min));
+
+        min=Math.min(min,minHeap.isEmpty() ? min: minHeap.poll());
+        return Math.min(dfs(grid,rowIndx+1,min), min);
+    }
+
+    private static int greedy(int[][] grid) {
+
+        // will not work
+        int min=0 , prevIndx=-1, currMin, currIndx;
+
+        for(int[] row : grid){
+            currMin=Integer.MAX_VALUE;
+            currIndx=-1;
+            for(int i = 0; i< grid[0].length; i++){
+                if(prevIndx!=i && currMin>row[i]) {
+                    currMin = row[i];
+                    currIndx = i;
+                    System.out.print(currMin +" + ");
+                }
+            }
+            min+=currMin;
+            prevIndx=currIndx;
+        }
+        return min;
+    }
+
+    static int fun(int a, int b){
+        if(a==1)return b;
+        return fun(a-1, b+a);
+    }
+
     // Function to merge two sorted doubly linked lists
     static Node merge(Node left, Node right) {
         if (left == null) {
@@ -571,14 +615,49 @@ Topic Tags
         }
     }
 
+    static Node delete(Node head, int k)
+    {
+            int i = 1;
+            Node curr = head, prev = head;
+            while (curr != null && curr.next != null) {
+                if (i == k) {
+                    i = 1;
+                    prev.next = curr.next;
+                    prev = prev.next;
+                } else prev = curr;
+                curr = prev.next;
+                i++;
+            }
+            if (i == k && curr!=null)
+                prev.next = curr.next;
+         return head;
 
-    class Node{
-        int data;  Node left, right ,next,prev;
-        public Node(int d){
-            data=d; left=null; right=null;
+    }
+
+    static Node constructLinkedList(int[] arr){
+        Node head=new Node(arr[0]), curr=head;
+        for(int i=1 ; i<arr.length; i++){
+            curr.next=new Node(arr[i]);
+            curr=curr.next;
+        }
+        return head;
+    }
+
+    static void printLinkedList(Node head){
+        Node curr=head;
+        while (curr!=null) {
+            System.out.print(curr.data + " ");
+            curr=curr.next;
         }
     }
 
+
+    static class Node{
+        int data;  Node left, right ,next,prev;
+        public Node(int d){
+            data=d; left=null; right=null; next=null;
+        }
+    }
 
 }
 

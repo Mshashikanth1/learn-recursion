@@ -188,8 +188,7 @@ abc-> c-d = 1<3 cou=4
 
         System.out.println(fun(4,8));
 
- */
-        int[][] grid=new int[][]  {
+             int[][] grid=new int[][]  {
                 { -37, 51, -36, 34,-22 },
                 {  82,  4, 30,  14, 38 },
                 { -68, -52, -92, 65,-85 },
@@ -197,53 +196,29 @@ abc-> c-d = 1<3 cou=4
                 { -60, -71,-21, -62, -73 }
              };
         System.out.println(minFallingPathSum(grid)); //-247
+
+                gfg.printLinkedList( gfg.constructLinkedList(new int[]{1 ,2 ,3, 4, 5, 6, 7 ,8 ,9 ,10}));
+        System.out.println( );
+     gfg.printLinkedList(
+             gfg.delete(
+                     gfg.constructLinkedList(new int[]{1 ,2 ,3, 4, 5, 6, 7 ,8 ,9 ,10})
+                     ,3 )
+     );
+
+        System.out.println("actual :"+ Arrays.toString((new int[]{1, 2, 3, 4, 5 ,6, 7 ,8})));
+
+        gfg.printLinkedList(
+                gfg.delete(
+                        gfg.constructLinkedList(new int[]{1, 2, 3, 4, 5 ,6, 7 ,8})
+                        ,2 )
+        );
+
+        System.out.println("\nexpected : " + Arrays.toString(new int[]{1, 3, 5 , 7 }));
+
+
+ */
     }
 
 
-        public static int minFallingPathSum(int[][] grid) {
-//            return greedy(grid);
-            return  dfs(grid, 0, 0);
-        }
-
-        public static int dfs(int[][] grid, int rowIndx, int min){
-                if(rowIndx>=grid[0].length) return 0;
-
-                int[] row=grid[rowIndx];
-
-               PriorityQueue<Integer> minHeap=new PriorityQueue<>();
-               for(int i : row)  if(i+min < min) minHeap.offer(dfs(grid,rowIndx,i+min));
-
-               min=Math.min(min,minHeap.isEmpty() ? min: minHeap.poll());
-               return Math.min(dfs(grid,rowIndx+1,min), min);
-
-
-        }
-
-
-    private static int greedy(int[][] grid) {
-
-        // will not work
-        int min=0 , prevIndx=-1, currMin, currIndx;
-
-        for(int[] row : grid){
-            currMin=Integer.MAX_VALUE;
-            currIndx=-1;
-            for(int i = 0; i< grid[0].length; i++){
-                if(prevIndx!=i && currMin>row[i]) {
-                    currMin = row[i];
-                    currIndx = i;
-                    System.out.print(currMin +" + ");
-                }
-            }
-            min+=currMin;
-            prevIndx=currIndx;
-        }
-        return min;
-    }
-
-    static int fun(int a, int b){
-        if(a==1)return b;
-         return fun(a-1, b+a);
-    }
 }
 
