@@ -216,9 +216,24 @@ abc-> c-d = 1<3 cou=4
         System.out.println("\nexpected : " + Arrays.toString(new int[]{1, 3, 5 , 7 }));
 
 
+
+            gfg.printLinkedList(
+             gfg.arrangeCV(
+                gfg.constructLinkedList(new char[]{'a' ,'b' ,'c' ,'d' ,'e' ,'f' ,'g' ,'h' ,'i'})
+        )
+        );
+
+
+
+
+
  */
+
+        gfg.printLinkedList(
+                gfg.arrangeCV(
+                        gfg.constructLinkedList(new char[]{'d'})
+                )
+        );
     }
-
-
 }
 

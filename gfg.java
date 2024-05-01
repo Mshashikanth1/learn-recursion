@@ -643,20 +643,65 @@ Topic Tags
         return head;
     }
 
+    static Node constructLinkedList(char[] arr){
+        Node head=new Node(arr[0]), curr=head;
+        for(int i=1 ; i<arr.length; i++){
+            curr.next=new Node(arr[i]);
+            curr=curr.next;
+        }
+        return head;
+    }
+
     static void printLinkedList(Node head){
         Node curr=head;
         while (curr!=null) {
-            System.out.print(curr.data + " ");
+//            System.out.print(curr.data + " ");
+            System.out.print(curr.chdata + " ");
+
             curr=curr.next;
         }
     }
 
+    public static Node arrangeCV(Node head){
+        Set<Character> hset=new HashSet<>(List.of('a','e','i','o','u'));
+
+        Node  curr=head, vovles=new Node('0'), v=vovles, consonents=new Node('0'), c=consonents;
+        while(curr!=null){
+            if(hset.contains(curr.chdata)){
+                //add to vowels list
+                v.next=curr;
+                v=v.next;
+
+            }else{
+                //add to consonants list
+                c.next=curr;
+                c=c.next;
+            }
+            curr=curr.next;
+        }
+        //remove the first dummy node
+        vovles=vovles.next;
+        consonents=consonents.next;
+
+        //put the last element pointer to null to avoid cycles
+        c.next=null;
+        v.next = consonents;
+
+        //return the new list the head will begin with vovles
+        return vovles==null ? consonents : vovles;
+    }
 
     static class Node{
         int data;  Node left, right ,next,prev;
+        char chdata;
         public Node(int d){
             data=d; left=null; right=null; next=null;
         }
+        public Node(char d){
+            chdata=d; left=null; right=null; next=null;
+        }
+
+
     }
 
 }

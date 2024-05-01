@@ -2,6 +2,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DynamicProgramming {
+
+    /*Dynamic programming(save the similar sub-problems result and use it for further )
+     * stair case
+     * fibonacci : fib(n)=fib(n-1) + fib(n-2)
+     *
+     *
+     * factorial : fac(n) = n*fib(n-1) --> no repeated work[ dp not required]
+     *
+     * prefer iterative dynamic programming
+     * DAG (directed acyclic graph) ,
+     *
+     * iterative (bottom up) [easier to calculate time complexity] [tabulation] [ space optimization ]
+     * / recursive (top down)[its easier] [memorization]
+     *
+     *
+     * */
     /*
     * fibonacci numbers : 0,1,1,2,3,5,.... : f(n)=f(n-1)+f(n-2)
     * */
@@ -34,6 +50,7 @@ public class DynamicProgramming {
     *
     * an observation can be done : we are soring large data,
     * but we use only last 2 calls
+    * kotlin is the replica
     * */
     public int fibNumTabulation(int n){
         int[] dp=new int[n+1];
