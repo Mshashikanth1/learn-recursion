@@ -223,17 +223,28 @@ abc-> c-d = 1<3 cou=4
         )
         );
 
-
+   gfg.printLinkedList(
+                gfg.arrangeCV(
+                        gfg.constructLinkedList(new char[]{'d'})
+                )
+        );
 
 
 
  */
 
-        gfg.printLinkedList(
-                gfg.arrangeCV(
-                        gfg.constructLinkedList(new char[]{'d'})
-                )
-        );
+
+
+        gfg.Node binaryTreeFromInOrder= gfg.constructBinaryTreeFromInOrder(new int[] {40 ,20 ,60 ,10 ,30},0,5);
+        gfg.inOrderTraversalBinaryTree(binaryTreeFromInOrder);
+        System.out.println();
+
+        gfg.Node binaryTreeFromPreOrder= gfg.constructBinaryTreeFromPreOrder(new int[] {60, 40, 20 ,10 ,30},0,5);
+        gfg.preOrderTraversalBinaryTree(binaryTreeFromPreOrder);
+
+        System.out.println();
+        gfg.Node binaryTreeFromPostOrder= gfg.constructBinaryTreeFromPostOrder(new int[] {40 ,20 ,10 ,30 ,60 },0,4);
+        gfg.postOrderTraversalBinaryTree(binaryTreeFromPostOrder);
     }
 }
 

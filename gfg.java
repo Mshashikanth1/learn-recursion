@@ -691,6 +691,62 @@ Topic Tags
         return vovles==null ? consonents : vovles;
     }
 
+    static Node constructBinaryTreeFromInOrder(int[] inorderTraversal, int left, int right){
+        /*The root is found in middle of the inorder traversal*/
+        if(left<right){
+                int mid= left +(right-left)/2;
+                Node root=new Node(inorderTraversal[mid]);
+                root.left= constructBinaryTreeFromInOrder(inorderTraversal,left,mid);
+                root.right=constructBinaryTreeFromInOrder(inorderTraversal,mid+1, right);
+                return root;
+          }
+          return null;
+    }
+
+    static  void inOrderTraversalBinaryTree(Node root){
+        if(root!=null) {
+            inOrderTraversalBinaryTree(root.left);
+            System.out.print (root.data+" ");
+            inOrderTraversalBinaryTree(root.right);
+        }
+    }
+    static Node constructBinaryTreeFromPreOrder(int[] preOrderTraversal, int left, int right){
+        if(left<right){
+            Node root=new Node(preOrderTraversal[left]);
+            root.left=constructBinaryTreeFromPreOrder(preOrderTraversal , left+1, right);
+            root.right=constructBinaryTreeFromPreOrder(preOrderTraversal,left+2,right);
+            return root;
+        }
+        return  null;
+    }
+
+
+    static  void preOrderTraversalBinaryTree(Node root){
+        if(root!=null) {
+            System.out.print (root.data+" ");
+            inOrderTraversalBinaryTree(root.left);
+            inOrderTraversalBinaryTree(root.right);
+        }
+    }
+
+    static Node constructBinaryTreeFromPostOrder(int[] preOrderTraversal, int left, int right){
+        if(left<right){
+            Node root=new Node(preOrderTraversal[right]);
+            root.left=constructBinaryTreeFromPreOrder(preOrderTraversal , left, right-1);
+            root.right=constructBinaryTreeFromPreOrder(preOrderTraversal,left,right-2);
+            return root;
+        }
+        return  null;
+    }
+
+    static  void postOrderTraversalBinaryTree(Node root){
+        if(root!=null) {
+            inOrderTraversalBinaryTree(root.left);
+            inOrderTraversalBinaryTree(root.right);
+            System.out.print (root.data+" ");
+        }
+    }
+
     static class Node{
         int data;  Node left, right ,next,prev;
         char chdata;
