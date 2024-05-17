@@ -63,7 +63,7 @@ public class sorting {
     public static void mergeSort(int[] nums, int left, int right){
            if(left<right){
                int mid=left + ((right - left)/2);
-               mergeSort(nums,left, mid);
+               mergeSort(nums, left, mid);
                mergeSort(nums,mid+1,right);
                merge(nums,left,mid,right);
            }

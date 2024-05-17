@@ -1,5 +1,8 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.sql.SQLOutput;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class app {
     public static void main(String[] args) {
@@ -229,22 +232,94 @@ abc-> c-d = 1<3 cou=4
                 )
         );
 
-
-
- */
-
-
-
         gfg.Node binaryTreeFromInOrder= gfg.constructBinaryTreeFromInOrder(new int[] {40 ,20 ,60 ,10 ,30},0,5);
         gfg.inOrderTraversalBinaryTree(binaryTreeFromInOrder);
         System.out.println();
 
         gfg.Node binaryTreeFromPreOrder= gfg.constructBinaryTreeFromPreOrder(new int[] {60, 40, 20 ,10 ,30},0,5);
         gfg.preOrderTraversalBinaryTree(binaryTreeFromPreOrder);
-
         System.out.println();
         gfg.Node binaryTreeFromPostOrder= gfg.constructBinaryTreeFromPostOrder(new int[] {40 ,20 ,10 ,30 ,60 },0,4);
         gfg.postOrderTraversalBinaryTree(binaryTreeFromPostOrder);
+
+        int[] arr=new int[]{7,2,28};
+        sorting.mergeSort(arr, 0, 2);
+        System.out.println(Arrays.toString(arr));
+
+               int[][] heights=
+               {  {1, 2, 2},
+                  {3, 8, 2},
+                  {5, 3, 5} };
+
+       gfg.dfs(0,0, 3,3,heights, new ArrayList<>(),new HashSet<>());
+
+   private int count = 0;
+
+            // Synchronized method for thread-safe increment
+            public synchronized void increment() {
+                count++;
+            }
+
+            // Volatile variable for visible flag (no synchronization needed)
+            public volatile boolean isRunning = true;
+
+
+ */
+
+
+        StringModifier  exclaim = str -> str + "!";
+        String modifiedString= exclaim.modify("Hello");
+        System.out.println(modifiedString);
+
+        List<Integer> lis = List.of(1,2,3,4,5,6,7,7,88,9,9,9);
+        Optional<Integer> parrelleProtamming =lis.stream()
+                .parallel()
+                .map( i -> i*i)
+                .reduce(Integer::sum);
+
+
+        Runnable task1 = new Runnable() {
+            @Override
+            public void run() {
+                //print numbers 1 -10;
+                for(int i=1;i<=10;i++) {
+                    System.out.println(i);
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        };
+
+        Runnable task2= new Runnable() {
+            @Override
+            public void run() {
+                //print chars a- 10th char;
+                for(int i=97;i<107;i++){
+                    System.out.println((char) i);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+            }
+        };
+
+        Thread thread1= new Thread(task1);
+        Thread thread2= new Thread(task2);
+
+        thread1.start();
+        thread2.start();
+
+
+
+
+
+
     }
 }
 

@@ -759,6 +759,129 @@ Topic Tags
 
 
     }
+    public static int maximumDoubletXOR(Node head) {
+        // code here
+        List<Integer> lis =new ArrayList<>();
+
+        Node curr=head;
+        while(curr!=null){ lis.add(curr.data); curr=curr.next;}
+
+        int max=Integer.MIN_VALUE, n=lis.size();
+
+        for(int i=0;i< lis.size();i++){
+            max=Math.max(max, lis.get(i) ^ lis.get(n-1-i));
+        }
+        return max;
+    }
+
+    public static int findNumberOfGoodComponent(int e, int v, int[][] edges) {
+        // code here
+        Map<Integer, List<Integer>> adjList = constructAdjacencyListGraphRep(v, edges);
+
+        // System.out.println(adjList);
+
+        int  noOfIslandsWithEveryPairNodeHasEdge=0;
+        Set<Integer> visited=new HashSet<>();
+        for(int node : adjList.keySet()){
+            if(!visited.contains(node)){
+
+                boolean isAllMembersHaveAnEdge=true;
+                List<Integer> islandMembers=dfs(node, adjList, visited);
+
+                //   System.out.println(islandMembers);
+                for(int i :islandMembers){
+                    for(int j : islandMembers){
+                        if( i!=j && !adjList.get(i).contains(j) ) {isAllMembersHaveAnEdge=false; break;}
+                    }
+                }
+
+                if(islandMembers.size()==1)  isAllMembersHaveAnEdge=true;
+
+                if(isAllMembersHaveAnEdge) noOfIslandsWithEveryPairNodeHasEdge++;
+            }
+        }
+
+        return noOfIslandsWithEveryPairNodeHasEdge;
+    }
+
+    private static Map<Integer, List<Integer>> constructAdjacencyListGraphRep(int v, int[][] edges) {
+        Map<Integer,List<Integer>> adjList=new HashMap<>();
+        for(int[] edge: edges) {
+            List<Integer> currList = adjList.getOrDefault(edge[0], new ArrayList<>());
+            currList.add(edge[1]);
+            adjList.put(edge[0],currList);
+
+            currList = adjList.getOrDefault(edge[1], new ArrayList<>());
+            currList.add(edge[0]);
+            adjList.put(edge[1],currList);
+        }
+        for(int i = 1; i<= v; i++) if(!adjList.containsKey(i)) adjList.put(i, new ArrayList<>());
+        return adjList;
+    }
+    public static  List<Integer>  dfs(int root, Map<Integer,List<Integer>> adjList ,  Set<Integer> visited ){
+        Stack<Integer> stack=new Stack<>();
+        stack.push(root);
+
+        List<Integer> islandMembers=new ArrayList<>();
+
+
+        while(!stack.isEmpty()){
+            int pop=stack.pop();
+
+            islandMembers.add(pop);
+            visited.add(pop);
+            for(int neighbour:adjList.get(pop)){
+                if(!visited.contains(neighbour)) {stack.push(neighbour);  visited.add(neighbour);}
+            }
+        }
+        return islandMembers;
+    }
+    public static  List<Integer>  dfsRec(int root, Map<Integer,List<Integer>> adjList ,  Set<Integer> visited, List<Integer> islandMembers){
+
+        islandMembers.add(root);
+        visited.add(root);
+        for(int neighbour:adjList.get(root)){
+            if(!visited.contains(neighbour)) {
+                visited.add(neighbour);
+                dfsRec(neighbour, adjList, visited, islandMembers);
+            }
+        }
+        return islandMembers;
+    }
+
+
+    static int[] dx=new int[]{0,1,0,-1}, dy=new int[]{1,0,-1,0};
+    public static void dfs(int i, int j, int m, int n, int[][] matrix, List<Integer> path, Set<String> visited) {
+        // Add the current cell to the path
+        path.add(matrix[i][j]);
+
+        // If we reach the destination cell, print the path and backtrack
+        if (i == m - 1 && j == n - 1) {
+            System.out.println(path);
+            // Backtrack: Remove the last element added to the path
+            path.remove(path.size() - 1);
+            return;
+        }
+
+        // Mark the current cell as visited
+        visited.add(i + "," + j);
+
+        // Explore all possible directions (right, down, left, up)
+        for (int k = 0; k < 4; k++) {
+            int ni = i + dx[k];
+            int nj = j + dy[k];
+            // Check if the next cell is within bounds and not visited
+            if (ni >= 0 && ni < m && nj >= 0 && nj < n && !visited.contains(ni + "," + nj)) {
+                dfs(ni, nj, m, n, matrix, path, visited);
+            }
+        }
+
+        // Backtrack: Remove the last element added to the path
+        path.remove(path.size() - 1);
+
+        // Unmark the current cell as visited (backtracking)
+        visited.remove(i + "," + j);
+    }
 
 }
 

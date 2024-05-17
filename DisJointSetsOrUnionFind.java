@@ -10,7 +10,7 @@ public class DisJointSetsOrUnionFind {
 
     public   void union(int i, int j){
         int irep=find(i), jRep=find(j);
-        parent[irep]=jRep;
+        if(irep!=jRep)  parent[irep]=jRep;
     }
 
 
