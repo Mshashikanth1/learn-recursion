@@ -2,7 +2,6 @@
 
 import org.graalvm.collections.Pair;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class leetcode {
@@ -1009,6 +1008,23 @@ n == height.length
 
             // Return the minimum from the first row
             return nextMin1;
+        }
+
+//bit manipulation  way of
+        public static List<List<Integer>> findALlSubsets(int[] nums){
+            int totalSubsets= (int) Math.pow(2,nums.length);
+            List<List<Integer>> subsets=new ArrayList<>();
+
+            for(int i=0;i<totalSubsets; i++ ){
+                List<Integer> subset=new ArrayList<>();
+                for(int j=0; j<nums.length; j++){
+                    if((i & ( i<<j )) > 0 )  subset.add(nums[j]);
+                }
+                subsets.add(subset);
+
+            }
+
+            return subsets;
         }
 
 }

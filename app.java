@@ -1,9 +1,3 @@
-import org.w3c.dom.ls.LSOutput;
-
-import java.sql.SQLOutput;
-import java.util.*;
-import java.util.stream.Collectors;
-
 public class app {
     public static void main(String[] args) {
         /*
@@ -264,7 +258,6 @@ abc-> c-d = 1<3 cou=4
             public volatile boolean isRunning = true;
 
 
- */
 
 
         StringModifier  exclaim = str -> str + "!";
@@ -315,11 +308,49 @@ abc-> c-d = 1<3 cou=4
         thread1.start();
         thread2.start();
 
+        System.out.println(leetcode.findALlSubsets(new int[]{1,2,3}));
+
+                System.out.println(gfg.binarySearch(new int[]{1, 2, 3, 6, 10},5, 4));
+
+ */
+
+
+        gfg.Node  root=  new gfg.Node(1);
+
+        root.right= new gfg.Node(3);
+        root.right.right=new gfg.Node(7);
+        root.left= new gfg.Node(2);
+        root.left.left=new gfg.Node(6);
+        root.left.left.left=new gfg.Node(8);
+
+        System.out.println(gfg.rightAndLeftViewsOfBinTree(root));
+
+        System.out.println("InOrder\n");
+        gfg.inOrderTraversalBinaryTree(root);
+
+        System.out.println("preOrder\n");
+        gfg.preOrderTraversalBinaryTree(root);
+
+        System.out.println("postOrder\n");
+        gfg.postOrderTraversalBinaryTree(root);
 
 
 
 
 
+
+          /* L     N       R
+    *       1
+    *   2       3
+    * 6              7
+    8
+    *
+    * *  right = [ 1, 3, 7]  left =[1,2,7 ]
+    *
+    *   inOrd (LNR) = [ 8,6,2,1,3,7 ]  , preOrd (NLR) =[1 8 6 2 3 7 ],   , postOrd (LRN) =[8,6,2,3,7,1]
+
+
+*/
     }
 }
 

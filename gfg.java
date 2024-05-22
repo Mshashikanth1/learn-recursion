@@ -883,6 +883,77 @@ Topic Tags
         visited.remove(i + "," + j);
     }
 
+   public  static int binarySearch(int[] arr, int n, int x){
+        int l=0, r=n-1;
+
+        while(l<=r){
+            int mid= l +(r-l)/2;
+            if( x > arr[mid]) l=mid+1;
+            else if( x< arr[mid]) r=mid-1;
+            else return mid;
+        }
+
+        return l;
+    }
+
+
+    /* L     N       R
+    *       1
+    *   2       3
+    *               7
+    *
+    *
+    * 4    5  6    7
+    5                  9
+ 7   *
+    *  Right view -> [ 1, 3, 7  ,9 ]
+    *
+    *
+    *  { 0: [1] , 1: {2,3} , 2: {4,5,6,7 }  , 3 :[5,9],  4: [7]}
+    * */
+
+
+    /* T : O(n) S: O(n)  Optimization : without space*/
+    public static  Map<String, List<Integer>> rightAndLeftViewsOfBinTree(Node root){
+
+        Map<Integer,List<Integer> > lMap= new HashMap<>();
+        dfs(root,lMap,0);
+
+
+        Map<String, List<Integer>> ans = new HashMap<>();
+
+        List<Integer> rightView= new ArrayList<>();
+        List<Integer> leftView= new ArrayList<>();
+        for( int i=0;i< lMap.size(); i++ ){
+            int size = lMap.get(i).size();
+
+            leftView.add(lMap.get(i).get(0));
+            rightView.add( lMap.get(i).get(size-1));
+        }
+
+        ans.put("rightView",rightView);
+        ans.put("leftView",leftView);
+
+        return  ans;
+
+
+    }
+
+    public static  void dfs (Node root,Map<Integer,List<Integer> > lMap, int depth ){
+        if(root==null) return ;
+
+
+        List<Integer> currLevelNodes=lMap.getOrDefault(depth, new ArrayList<>());
+        currLevelNodes.add(root.data);
+        lMap.put(depth,currLevelNodes );
+
+        dfs(root.left, lMap,depth+1);
+        dfs(root.right, lMap,depth+1);
+    }
+
+
+
+
 }
 
 
