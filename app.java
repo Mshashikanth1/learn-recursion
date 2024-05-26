@@ -312,7 +312,7 @@ abc-> c-d = 1<3 cou=4
 
                 System.out.println(gfg.binarySearch(new int[]{1, 2, 3, 6, 10},5, 4));
 
- */
+
 
 
         gfg.Node  root=  new gfg.Node(1);
@@ -351,6 +351,12 @@ abc-> c-d = 1<3 cou=4
 
 
 */
+        String s = "abcd";
+        String t = "acdb";
+        int[][] memo= new int[5][5];
+        System.out.println(DynamicProgramming.longestCommonSubSequence(s, t));
+        System.out.println(DynamicProgramming.longestCommonSubSequence(s, t, 4,4, memo));
+        System.out.println(DynamicProgramming.backTrack(s,t,s.length(),t.length(),memo));
     }
 }
 

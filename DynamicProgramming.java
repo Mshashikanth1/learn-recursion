@@ -79,4 +79,54 @@ public class DynamicProgramming {
         return next;
     }
 
+
+
+
+    /* bottom up : dynamic programming : tabulation  Time : O(n*m) Space O(n*m) */
+    public static int longestCommonSubSequence(String s, String t){
+            int n= s.length(), m=t.length();
+            int[][] dp= new int[n+1][m+1];
+
+            for(int i=1;i<=n;i++){
+                for(int j=1; j<=m; j++ ){
+                    if(s.charAt(i-1) == t.charAt(j-1)){
+                        dp[i][j] = 1+ dp[i-1][j-1];
+                    }else {
+                        dp[i][j] =Math.max(dp[i-1][j] , dp[i][j-1]);
+                    }
+                }
+            }
+            /*to print the longest common subsequence we , need backtrack the dp array by checking the character
+            equality & and got to max of the i,j and reverse the string you have got*/
+
+        System.out.println(backTrack(s,t,n,m,dp));
+            return dp[n][m];
+    }
+
+    public static String backTrack(String s, String t, int n, int m,int[][] dp){
+        int i= n,  j=m;
+        StringBuilder lcs= new StringBuilder();
+        while(i>0 && j>0){
+            if(s.charAt(i-1)== t.charAt(j-1)) {lcs.append(s.charAt(i-1));  i--; j--;}
+            else if( dp[i-1][j] > dp[i][j-1]) i--;
+            else j--;
+        }
+        lcs.reverse();
+        return lcs.toString();
+    }
+
+    public static int longestCommonSubSequence(String s, String t, int i, int j,int[][] memo){
+        if(i==0 || j==0 ) {
+            return 0;
+        }
+
+        if( s.charAt(i-1) == t.charAt(j-1)) {
+            memo[i][j]= 1+ longestCommonSubSequence(s,t,i-1,j-1, memo);
+        }
+        else { memo[i][j]=Math.max(longestCommonSubSequence(s,t,i-1,j , memo), longestCommonSubSequence(s,t,i,j-1 , memo));}
+
+        return memo[i][j];
+    }
+
+
 }
