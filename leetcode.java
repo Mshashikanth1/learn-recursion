@@ -1015,10 +1015,10 @@ n == height.length
             int totalSubsets= (int) Math.pow(2,nums.length);
             List<List<Integer>> subsets=new ArrayList<>();
 
-            for(int i=0;i<totalSubsets; i++ ){
+            for(int i=0; i<totalSubsets; i++ ){
                 List<Integer> subset=new ArrayList<>();
                 for(int j=0; j<nums.length; j++){
-                    if((i & ( i<<j )) > 0 )  subset.add(nums[j]);
+                    if( (i & ( i<<j )) > 0 )  subset.add(nums[j]);
                 }
                 subsets.add(subset);
 
@@ -1027,6 +1027,46 @@ n == height.length
             return subsets;
         }
 
+    public static int specialArray(int[] nums) {
+        for( int x=0; x<=nums.length ; x++){
+            int count=0;
+            for(int num : nums) {
+                if(num>=x) count++;
+            }
+            if(count==x) return x;
+        }
+        return -1;
+    }
+    public static int lcss(String s, String t, int i , int j, HashMap<String, Integer> cache){
+            if( i >=s.length() || j >=t.length()) return 0;
+
+            String key = i+","+j;
+            if(cache.containsKey(key)) return cache.get(key);
+
+            int res;
+            if( s.charAt(i) == t.charAt(j)  ) res= 1+lcss( s, t, i+1, j+1,cache);
+            else  res= Math.max(lcss(s,t,i+1,j,cache) , lcss(s,t,i,j+1,cache));
+
+
+            cache.put(key,res);
+            return  res;
+    }
+    public static int lcss(String s, String t){
+            int n=s.length(), m=t.length() ,  maxLength=0;
+            int[][] dp= new int[n+1][m+1];
+
+            for(int i=1; i<=n ; i++){
+                for(int j=1; j<=m ; j++){
+                    if( s.charAt(i-1) == t.charAt(j-1) ) {
+                        dp[i][j] = dp[i-1][j-1] +1;
+                        maxLength=Math.max(maxLength, dp[i][j]);
+                    } else {
+                        dp[i][j]=0;
+                    }
+                }
+            }
+            return  maxLength;
+    }
 }
 /*
     1 -->  4x1 -->   0
@@ -1049,8 +1089,6 @@ n == height.length
  0,1,2,3,4
 
 minVal !=1 then answer =1
-
-
 
 4 4
 6 2 1 3

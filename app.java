@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class app {
     public static void main(String[] args) {
         /*
@@ -349,14 +351,18 @@ abc-> c-d = 1<3 cou=4
     *
     *   inOrd (LNR) = [ 8,6,2,1,3,7 ]  , preOrd (NLR) =[1 8 6 2 3 7 ],   , postOrd (LRN) =[8,6,2,3,7,1]
 
-
-*/
-        String s = "abcd";
+         String s = "abcd";
         String t = "acdb";
         int[][] memo= new int[5][5];
         System.out.println(DynamicProgramming.longestCommonSubSequence(s, t));
         System.out.println(DynamicProgramming.longestCommonSubSequence(s, t, 4,4, memo));
         System.out.println(DynamicProgramming.backTrack(s,t,s.length(),t.length(),memo));
+        System.out.println(leetcode.specialArray( new int[]{3,5}));
+        System.out.println(leetcode.lcss("abcd", "bcdf"));
+ */
+
+
+        System.out.println(gfg.swapNibbles(100));
     }
 }
 

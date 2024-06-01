@@ -99,7 +99,7 @@ public class DynamicProgramming {
             /*to print the longest common subsequence we , need backtrack the dp array by checking the character
             equality & and got to max of the i,j and reverse the string you have got*/
 
-        System.out.println(backTrack(s,t,n,m,dp));
+            System.out.println(backTrack(s,t,n,m,dp));
             return dp[n][m];
     }
 
@@ -115,6 +115,7 @@ public class DynamicProgramming {
         return lcs.toString();
     }
 
+    /*top down: dynamic programming | Memorization*/
     public static int longestCommonSubSequence(String s, String t, int i, int j,int[][] memo){
         if(i==0 || j==0 ) {
             return 0;

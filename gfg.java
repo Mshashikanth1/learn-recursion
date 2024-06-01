@@ -1,3 +1,4 @@
+import java.security.Key;
 import java.util.*;
 
 public class gfg {
@@ -951,6 +952,33 @@ Topic Tags
         dfs(root.right, lMap,depth+1);
     }
 
+    /*Longest sub-sequence with adj. ele differ by 1 */
+    public static int lsmv(int n, int[] a, int i, int j, Map<String ,Integer> chache){
+        if( j>=n  || i>=n || i<0 || j<0  ) return 0;
+
+        String key=i+","+j;
+        if(chache.containsKey(key)) return chache.get( key);
+
+        int res=  Math.abs(a[i] - a[j]) == 1 ?   1 + lsmv(n, a, i+1, j+1 ,chache)
+                :   Math.max( lsmv(n, a, i, j+1 ,chache ) , lsmv( n, a, i+1, j,chache) );
+
+        chache.put( key, res);
+        return res;
+    }
+
+    static int swapNibbles(int n) {
+
+        int[] pow = new int[] { 128,64,32,16,8,4,2,1};
+        int  j=7, res=0;
+
+        while( n > 0 ){
+            res += j<=3 ? pow[j+4] * (n%2) : pow[j-4] * (n%2);
+            j--;
+            n=n/2;
+        }
+
+        return res;
+    }
 
 
 
