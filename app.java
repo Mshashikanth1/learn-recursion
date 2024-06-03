@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class app {
@@ -341,11 +342,7 @@ abc-> c-d = 1<3 cou=4
 
 
 
-          /* L     N       R
-    *       1
-    *   2       3
-    * 6              7
-    8
+
     *
     * *  right = [ 1, 3, 7]  left =[1,2,7 ]
     *
@@ -359,10 +356,39 @@ abc-> c-d = 1<3 cou=4
         System.out.println(DynamicProgramming.backTrack(s,t,s.length(),t.length(),memo));
         System.out.println(leetcode.specialArray( new int[]{3,5}));
         System.out.println(leetcode.lcss("abcd", "bcdf"));
+
+         System.out.println(gfg.swapNibbles(100));
+
  */
 
 
-        System.out.println(gfg.swapNibbles(100));
+        gfg.Node root = new gfg.Node(1);
+
+        root.right = new gfg.Node(3);
+        root.right.right = new gfg.Node(7);
+        root.left = new gfg.Node(2);
+        root.left.left = new gfg.Node(6);
+        root.left.left.left = new gfg.Node(8);
+
+        int[] max = new int[10];
+        gfg.leftView(root, 0, max);
+        System.out.println(Arrays.toString(max));
+
+//        gfg.leftViewSpaceOptimized(root, 0);
+
+        System.out.println("right view :");
+        gfg.rightViewSpaceOptimized(root, 0);
+
+
+              /* L     N       R
+    *       1
+    *   2       3
+    * 6              7
+    8
     }
 }
 
+               */
+    }
+
+}

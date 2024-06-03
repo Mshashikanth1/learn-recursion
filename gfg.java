@@ -1,4 +1,3 @@
-import java.security.Key;
 import java.util.*;
 
 public class gfg {
@@ -981,6 +980,45 @@ Topic Tags
     }
 
 
+    static void leftView( Node root, int depth, int[] max ){
+        if( root==null) return;
+
+        if(max[depth]==0) max[depth]=root.data;
+
+        leftView(root.left,depth+1,max);
+        leftView(root.right, depth+1,max);
+
+    }
+
+    static  int seen =-1;
+
+    static void leftViewSpaceOptimized( Node root, int depth ){
+        if( root==null) return;
+
+        if(seen < depth) {
+            System.out.print( root.data +" ," );
+            seen =depth;
+        }
+
+        leftViewSpaceOptimized(root.left,depth+1);
+        leftViewSpaceOptimized(root.right, depth+1);
+
+    }
+
+
+    static void rightViewSpaceOptimized( Node root, int depth ){
+        if( root==null) return;
+
+        if(seen < depth) {
+            System.out.print( root.data +" ," );
+            seen =depth;
+        }
+
+        leftViewSpaceOptimized(root.right, depth+1);
+        leftViewSpaceOptimized(root.left,depth+1);
+
+
+    }
 
 }
 
