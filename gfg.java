@@ -1019,7 +1019,312 @@ Topic Tags
 
 
     }
+    String binaryNextNumber(String s) { //Number format exception NFE, Null pointer Exception NPE
+        int n = Integer.valueOf(s,2);
+        return Integer.toBinaryString(n);
+    }
 
+    /*
+    *   Repo :@Query (Select * from users where user.email := email)
+    *   Service : (send confirmation )
+    *   Controller: (email validator)
+    *   client side  :  " --> delete * from users  <--- "
+    * */
+
+    /**
+     In a restaurant, two waiters, A and B, receive n orders per day, earning tips as per arrays arr[i] and brr[i] respectively.
+     If A takes the ith order, the tip is arr[i] rupees; if B takes it, the tip is brr[i] rupees.
+
+     To maximize total tips, they must distribute the orders such that:
+
+     A can handle at most x orders
+     B can handle at most y orders
+     Given that x + y ≥ n, all orders can be managed by either A or B. Return the maximum possible total tip after processing all the orders.
+
+     Examples
+
+     Input: n = 5, x = 3, y = 3, arr = {1, 2, 3, 4, 5}, brr = {5, 4, 3, 2, 1}
+     Output: 21
+     Explanation: Person A will serve the 3rd, 4th and 5th order while person B will serve the rest so the total tip from A = 3+4+5 & B = 5 + 4 i.e. 21.
+
+
+     Input: n = 8, x = 4, y = 4, arr = {1, 4, 3, 2, 7, 5, 9, 6}, brr = {1, 2, 3, 6, 5, 4, 9, 8}
+     Output: 43
+     Explanation: Person A will serve 1st, 2nd, 5th and 6th order while Person B will serve the rest & the total tip will be 43.
+
+
+     Input: n = 7, x = 3, y = 4, arr[] = {8, 7, 15, 19, 16, 16, 18}, brr[] = {1, 7, 15, 11, 12, 31, 9}
+     Output: 110
+     Explanation: Person A will serve orders 8,19,18 while person B will serve 7,15, 12 & 31.
+     Expected Time Complexity: O(n*logn)
+     Expected Auxiliary Space: O(n)
+     Constraints:
+     1 ≤ n ≤ 105
+     1 ≤ x, y ≤ n
+     1 ≤ arr[i], brr[i] ≤ 109
+     */
+
+    public static long _maxTip(int n, int x, int y, int[] arr, int[] brr) {
+
+        PriorityQueue<int[]> pqa= new PriorityQueue<>( (int[] a,int[] b)-> b[1]-a[1]);
+        PriorityQueue<int[]> pqb= new PriorityQueue<>( (int[] a,int[] b)-> b[1]-a[1]);
+
+        for(int i=0;i<n;i++){
+            pqa.offer(new int[]{i,arr[i]});
+            pqb.offer(new int[]{i, brr[i]});
+        }
+
+        Set<Integer> ivisted= new HashSet<>();
+
+        long sum=0;
+        /*
+       while( x > 0 &&  y > 0 && !pqa.isEmpty() &&  !pqb.isEmpty()){
+
+           int[] pollb = pqb.peek(), polla = pqa.peek();
+
+           if( polla[1] >pollb[1]  ) {
+               if(!ivisted.contains(polla[0])) {
+                   sum +=  polla[1];
+
+                   System.out.print(polla[1] + " , ");
+                   ivisted.add(polla[0]);
+                   x--;
+               }
+               pqa.poll();
+
+           } else {
+               if( !ivisted.contains(pollb[0])) {
+                   sum += pollb[1];
+
+                   System.out.print(pollb[1] + " , ");
+                   ivisted.add(pollb[0]);
+                   y--;
+
+               }
+               pqb.poll();
+           }
+       }
+
+    while (!pqa.isEmpty() && x > 0) {
+
+        int[] poll = pqa.poll();
+        if(!ivisted.contains(poll[0])) {
+            sum += poll[1];
+
+            System.out.print(poll[1] + " , ");
+            ivisted.add(poll[0]);
+            x--;
+        }
+    }
+
+    while (!pqb.isEmpty() && y > 0) {
+        int[] poll = pqb.poll();
+        if(!ivisted.contains(poll[0])) {
+            sum += poll[1];
+            System.out.print(poll[1] + " , ");
+            ivisted.add(poll[0]);
+            y--;
+        }
+    }
+
+         */
+
+       return sum;
+    }
+
+    public long dfs( PriorityQueue<int[]> pqa ,  PriorityQueue<int[]> pqb, int x, int y, long ans, int pick ){
+        if(x <= 0 || y<=0 ) return ans;
+
+        if(pick ==0 ) {
+            if( !pqb.isEmpty() ) {
+            }
+        }else {
+
+        }
+
+
+        return 0L;
+    }
+
+    /*
+    You own a restaurant with two waiters, Raju and Muskan. Each order results in different tips for them,
+     and they each have a limit on how many orders they can take in a day (Raju can handle "x" orders, while Muskan can handle "y").
+      The objective is to assign orders in a way that maximizes their earnings.
+
+To achieve this, we create a list detailing each order, including the tip amounts for Raju and Muskan,
+ along with the difference in tips between them. We then organize this list so that orders with significant differences in tips are at the top.
+
+Next, we evaluate each order. If Raju has reached his limit ("x" orders), then Muskan gets the order.
+ The same applies if Muskan is at her maximum. However, if both have space, we compare who will receive a higher tip for that particular order.
+  The one with the better tip takes it, reducing their workload by one.
+
+By following this process step-by-step, we ensure that Raju and Muskan receive the best possible tips while also managing their capacity to handle orders.
+This approach ensures that both waiters are fairly compensated and that the restaurant benefits from satisfied and well-compensated staff.
+
+    * */
+    public static long maxTip(int n, int x, int y, int[] arr, int[] brr) {
+        int[][] a = new int[n][3];
+
+        for(int i=0; i<n; i++){
+            a[i][0]=arr[i];
+            a[i][1]=brr[i];
+            a[i][2]=Math.abs(arr[i]-brr[i]);
+        }
+
+        _printMatrix(a);
+        Arrays.sort(a,(p,q)-> q[2]-p[2]);
+        System.out.println("\n<-------------->\n");
+
+        _printMatrix(a);
+        long res=0;
+        for(int i=0; i<n; i++){
+            if(x==0){
+               res+=a[i][1];
+            }
+            else if(y==0){
+                res+=a[i][0];
+            }else{
+                if(a[i][0]>=a[i][1]){
+                    res+=a[i][0]; x--;
+                }else {
+                    res += a[i][1];
+                    y--;
+                }
+            }
+        }
+        return res;
+    }
+
+    public static void _printMatrix(int[][] arr){
+        for(int[] row:arr)  System.out.println(Arrays.toString(row));
+    }
+
+    public static void _printAsciiSentence(String str){
+        for( char ch: str.toCharArray()){
+            System.out.print( (int ) ch );
+            System.out.print(" ");
+        }
+    }
+
+    static Map<Integer,Integer> cache =new HashMap();
+    static int mod= 1000000007;
+    public static int _padovanSequence(int n)
+    {
+        System.out.println(n);
+
+        if( n<=2) return 1;
+
+        if( cache.containsKey(n)) return cache.get(n);
+
+        int res= (_padovanSequence(n-2) + _padovanSequence(n-3) )% mod ;
+        cache.put(n,res);
+        return res;
+    }
+
+    public static int padovanSequence(int n){
+        int[] dp= new int[n+1];
+        dp[0]++;
+        dp[1]++;
+        dp[2]++;
+
+        for( int i=3; i< n+1; i++){
+            dp[i]= dp[i-2] + dp[i-3];
+        }
+        return dp[n];
+    }
+
+    public static List<Node> findPath(Node root, List<Node> path, int n){
+
+        if(root==null) return  null;
+        path.add(root);
+        if(root.data== n) return path;
+
+        List<Node> leftSubTree =  findPath(root.left,path,n);
+        if(leftSubTree==null) {
+            while ( path.get(path.size()-1) != root){
+                path.remove(path.size()-1);
+            }
+        }
+        List<Node> rightSubTree= findPath(root.right,path,n);
+        return rightSubTree!=null ? rightSubTree:path;
+    }
+
+    /**
+i ,j    0  1  2  3   4
+0     *
+1     *  *
+2     *  ''  *
+3     *  ''  ''  *
+4     *  *   *   *  *
+
+     */
+
+    static  void printRightAngleTri(int n){
+//        String[][] shape= new String[n][n];
+
+//        for( String[] str: shape)  Arrays.fill(str,"");
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                if( j==0  || i==n-1 || i==j) {
+                    System.out.print("*");
+                    if( j<i) System.out.print("  ");
+                }
+
+//                shape[i][j]="*";
+                else System.out.print("  ");
+            }
+            System.out.println();
+        }
+
+//        for( String[] str: shape) System.out.println(Arrays.toString(str));
+    }
+
+
+    /*
+---------------
+     *
+     *  *
+     *    *
+     *      *
+     *        *
+     *          *
+     *            *
+     *              *
+     * * * * * * * * *
+
+     *
+     *  *
+     *     *
+     *        *
+     *           *
+     *              *
+     *                 *
+     *                    *
+     *  *  *  *  *  *  *  *  *
+
+
+     */
+
+    public static long findMaxProduct(int[] arr) {
+        // code here
+        long prod=1L , maxProd=Long.MIN_VALUE;
+        int maxNegNum=Integer.MIN_VALUE, negCount=0;
+
+        for( int i : arr){
+
+            if( i<0) {
+                negCount++;
+                maxNegNum= Math.max(maxNegNum, i);
+            }
+            prod*=i;
+
+            if( prod<0 && negCount>1) prod/=maxNegNum;
+            maxProd= Math.max(maxProd, prod);
+        }
+
+        return maxProd;
+    }
 }
 
 

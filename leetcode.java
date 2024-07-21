@@ -496,7 +496,7 @@ n == height.length
 * */
     public static int trap1(int[] height) {
         int water=0;
-        for(int i=0;i<height.length;i++){
+        for(int i=0;i<height.length; i++){
             int lMax= 0, rMax=0,l=i, r=i;
 
             while(l>=0) lMax=Math.max(lMax,height[l--]);
@@ -822,18 +822,13 @@ n == height.length
         int i=l-1,j=l;
 
         while(j<r){
-            if(arr[j]<arr[r]) swap(arr, ++i,j);
+            if(arr[j]<arr[r]) sorting.swap(arr, ++i,j);
             j++;
         }
-        swap(arr, ++i, r);
+        sorting.swap(arr, ++i, r);
         return i;
     }
 
-    public static void swap(int[] arr, int i, int j){
-        int t=arr[i];
-        arr[i]=arr[j];
-        arr[j]=t;
-    }
 
     public static int longestIdealString(String s, int k) {
         Map<String, Integer> cache = new HashMap<>();
@@ -1067,6 +1062,74 @@ n == height.length
             }
             return  maxLength;
     }
+
+    /**
+   1122. Relative Sort Array
+
+Given two arrays arr1 and arr2, the elements of arr2 are distinct, and all elements in arr2 are also in arr1.
+
+Sort the elements of arr1 such that the relative ordering of items in arr1 are the same as in arr2.
+Elements that do not appear in arr2 should be placed at the end of arr1 in ascending order.
+
+
+
+Example 1:
+
+Input: arr1 = [2,3,1,3,2,4,6,7,9,2,19], arr2 = [2,1,4,3,9,6]
+Output: [2,2,2,1,4,3,3,9,6,7,19]
+Example 2:
+
+Input: arr1 = [28,6,22,8,44,17], arr2 = [22,28,8,6]
+Output: [22,28,8,6,17,44]
+
+
+Constraints:
+
+1 <= arr1.length, arr2.length <= 1000
+0 <= arr1[i], arr2[i] <= 1000
+
+All the elements of arr2 are distinct.
+Each arr2[i] is in arr1.
+*/
+
+    /* T : O(n) S: O(n)   # n is length of larger array  T: O(m*m)  S: O(m) */
+    public static int[] relativeSortArray(int[] arr1, int[] arr2) {
+        Map<Integer, Integer> fhmap= new TreeMap<>();
+        for( int i: arr1)  fhmap.put(i, fhmap.getOrDefault(i, 0)+1);
+        int j=0;
+        for( int i :arr2){
+            int frq= fhmap.get(i);
+            while(frq-->0)  arr1[j++]=i;
+            fhmap.remove(i);
+        }
+        for( Map.Entry<Integer,Integer> entry : fhmap.entrySet()){
+            int frq=entry.getValue();
+            while(frq-->0) arr1[j++]=entry.getKey();
+        }
+        System.out.println(Arrays.toString(arr1));
+        return arr1;
+    }
+
+   static int[] findMissingPairs(int[] arr){
+
+        Set<Integer> hset= new HashSet<>();
+        int sum=0;
+        for( int i=0; i<arr.length; i++){
+            sum+= arr[i];
+            hset.add(arr[i]);
+        }
+
+        sum= ( ((arr.length+2)*(arr.length+3))/2)  -sum;
+
+        for( int i=1; i<=arr.length+2; i++){
+            if( !hset.contains(i) ) {
+                return  new int[] {i, sum-i};
+            }
+        }
+
+        return  new int[2];
+
+    }
 }
 /*
     1 -->  4x1 -->   0
@@ -1095,6 +1158,34 @@ minVal !=1 then answer =1
 4 2 1 5
 9 2 8 7
 4 1 2 9
+
+api gateways
+error handling
+failure precautions
+communication
+message
+redis caching techniques
+kafka deployment techniques
+_oxb404
+
+shading
+
+
+k=1
+2 3 1
+5 6 4
+8 9 7
+
+k=2
+3 1 2
+6 4 5
+9 7 8
+
+k=3
+1 2 3
+4 5 6
+7 8 9
+
  */
 
 

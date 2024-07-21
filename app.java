@@ -1,5 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Scanner;
 
 public class app {
     public static void main(String[] args) {
@@ -359,7 +360,16 @@ abc-> c-d = 1<3 cou=4
 
          System.out.println(gfg.swapNibbles(100));
 
- */
+
+
+              /* L     N       R
+    *       1
+    *   2       3
+    * 6              7
+    8
+    }
+}
+
 
 
         gfg.Node root = new gfg.Node(1);
@@ -374,10 +384,33 @@ abc-> c-d = 1<3 cou=4
         gfg.leftView(root, 0, max);
         System.out.println(Arrays.toString(max));
 
-//        gfg.leftViewSpaceOptimized(root, 0);
+        gfg.leftViewSpaceOptimized(root, 0);
 
         System.out.println("right view :");
         gfg.rightViewSpaceOptimized(root, 0);
+
+                System.out.println(
+                Arrays.toString(leetcode.relativeSortArray(new int[]{2,3,1,3,2,4,6,7,9,2,19}, new int[] {2,1,4,3,9,6} ))
+                        .equals(Arrays.toString(new int[]{2,2,2,1,4,3,3,9,6,7,19}))
+        );
+
+
+       Input: arr1 = [2,3,1,3,2,4,6,7,9,2,19], arr2 = [2,1,4,3,9,6]
+       Output: [2,2,2,1,4,3,3,9,6,7,19]
+
+        System.out.println(gfg.maxTip(5,3,3,new int[]{1, 2, 3, 4, 5} , new int[] {5, 4, 3, 2, 1}));
+
+        System.out.println(gfg.maxTip(8,  4,  4,new int[]{1, 4, 3, 2, 7, 5, 9, 6} , new int[] {1, 2, 3, 6, 5, 4, 9, 8}));
+
+        System.out.println(gfg.maxTip(7,  3,  4,new int[]{8, 7, 15, 19, 16, 16, 18}, new int[]  {1, 7, 15, 11, 12, 31, 9}));
+                gfg._printAsciiSentence("YOU ARE BAD");
+
+                System.out.println(gfg.padovanSequence(999993));
+
+                        System.out.println(Arrays.toString(leetcode.findMissingPairs(new int[]{5 ,10 ,1 ,6 ,2 ,8 ,3, 7, 11})));
+
+ */
+
 
 
               /* L     N       R
@@ -385,10 +418,29 @@ abc-> c-d = 1<3 cou=4
     *   2       3
     * 6              7
     8
-    }
-}
 
-               */
-    }
 
+
+        gfg.Node root = new gfg.Node(1);
+
+        root.right = new gfg.Node(3);
+        root.right.left = new gfg.Node(9);
+        root.right.right = new gfg.Node(7);
+        root.left = new gfg.Node(2);
+        root.left.left = new gfg.Node(6);
+        root.left.left.left = new gfg.Node(8);
+
+//        for( gfg.Node node : gfg.findPath(root, new ArrayList<>(),9 ) ) System.out.print(node.data + " , ");
+        gfg.printRightAngleTri(9);
+
+        System.out.println(NeetCode.minimizeMaximumArray(new int[]{3,7,1,6}));
+        System.out.println(NeetCode.removeStars("neet**cod*e"));
+        System.out.println(NeetCode.optimalPartitionSubstring("abacaba"));
+        System.out.println(Arrays.toString(NeetCode._pairsSuccessSpellsPortions(new int[]{ 5,1,3}, new int[]{ 1,2,3,4,5}, 7)));
+        System.out.println(Arrays.toString(NeetCode.pairsSuccessSpellsPortions(new int[]{ 5,1,3}, new int[]{ 1,2,3,4,5}, 7)));
+        System.out.println(Arrays.toString(NeetCode.topKFrequentElements(new int[]{1,1,1,2,2,3}, 2)));
+  */
+        System.out.println(gfg.findMaxProduct(new int[]{ -1,0, -1,2,3,4}));
+
+    }
 }
